@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply antialiased;
+    background-color: #eef2f7; /* lavender-100 - lighter */
+    color: #164876; /* mwd-blue-800 - richer blue */
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn text-white;
+    background-color: #164876; /* mwd-blue-800 */
+  }
+  .btn-primary:hover {
+    background-color: #1e5a8a; /* mwd-blue-700 */
+  }
+  .btn-primary:focus {
+    --tw-ring-color: #4a90c4; /* mwd-blue-500 */
+  }
+
+  .btn-secondary {
+    @apply btn bg-white;
+    color: #164876; /* mwd-blue-800 */
+    border: 1px solid #c4ddf0; /* mwd-blue-200 */
+  }
+  .btn-secondary:hover {
+    background-color: #f8fafc; /* lavender-50 */
+  }
+  .btn-secondary:focus {
+    --tw-ring-color: #82aed6; /* mwd-blue-400 */
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm;
+    border: 1px solid #c4ddf0; /* mwd-blue-200 */
+  }
+
+  .input {
+    @apply w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent;
+    border: 1px solid #c4ddf0; /* mwd-blue-200 */
+  }
+  .input:focus {
+    --tw-ring-color: #82aed6; /* mwd-blue-400 */
+  }
+
+  .label {
+    @apply block text-sm font-medium mb-1;
+    color: #1e5a8a; /* mwd-blue-700 */
+  }
+}
