@@ -264,16 +264,16 @@ export function MeterExplorer() {
                 {/* Connection Details & Current Flow */}
                 <div className="card p-4">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div className="bg-mwd-blue-800 rounded-lg p-3">
-                      <p className="text-xs font-medium text-white/80">Current Flow</p>
+                    <div className="bg-lavender-100 rounded-lg p-3 border-2 border-mwd-blue-400">
+                      <p className="text-xs font-medium text-mwd-blue-600">Current Flow</p>
                       {flowLoading ? (
-                        <p className="text-xl font-bold text-white">...</p>
+                        <p className="text-xl font-bold" style={{ color: '#2e74a8' }}>...</p>
                       ) : currentFlow && currentFlow[0] ? (
-                        <p className="text-xl font-bold text-white">
+                        <p className="text-xl font-bold" style={{ color: '#2e74a8' }}>
                           {currentFlow[0].Flow} <span className="text-xs font-normal">CFS</span>
                         </p>
                       ) : (
-                        <p className="text-xl font-bold text-white">N/A</p>
+                        <p className="text-xl font-bold" style={{ color: '#2e74a8' }}>N/A</p>
                       )}
                     </div>
                     {connectionInfo && (
@@ -413,9 +413,10 @@ export function MeterExplorer() {
                               onClick={() => setChartType(type)}
                               className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                                 chartType === type
-                                  ? 'bg-mwd-blue-800 text-white'
+                                  ? 'text-white'
                                   : 'bg-lavender-100 text-mwd-blue-700 hover:bg-lavender-200'
                               }`}
+                              style={chartType === type ? { backgroundColor: '#164876' } : undefined}
                             >
                               {type === 'flow' ? 'Flow' : type === 'volume' ? 'Volume' : 'Cumulative'}
                             </button>
@@ -440,7 +441,7 @@ export function MeterExplorer() {
                               <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} label={{ value: 'Flow (CFS)', angle: -90, position: 'insideLeft' }} />
                               <Tooltip contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px' }} />
                               <Legend />
-                              <Line type="monotone" dataKey="Flow" stroke="#2c3c5b" strokeWidth={2} dot={false} name="Flow (CFS)" />
+                              <Line type="monotone" dataKey="Flow" stroke="#2e74a8" strokeWidth={2} dot={false} name="Flow (CFS)" />
                             </LineChart>
                           ) : chartType === 'volume' ? (
                             <BarChart data={chartData}>
@@ -449,7 +450,7 @@ export function MeterExplorer() {
                               <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} label={{ value: 'Volume (AF)', angle: -90, position: 'insideLeft' }} />
                               <Tooltip contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px' }} />
                               <Legend />
-                              <Bar dataKey="Volume" fill="#82aed6" name="Volume (AF)" />
+                              <Bar dataKey="Volume" fill="#4a90c4" name="Volume (AF)" />
                             </BarChart>
                           ) : (
                             <AreaChart data={chartData}>
@@ -458,7 +459,7 @@ export function MeterExplorer() {
                               <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} label={{ value: 'Cumulative Volume (AF)', angle: -90, position: 'insideLeft' }} />
                               <Tooltip contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px' }} />
                               <Legend />
-                              <Area type="monotone" dataKey="cumulativeVolume" stroke="#2c3c5b" fill="#82aed6" name="Cumulative Volume (AF)" />
+                              <Area type="monotone" dataKey="cumulativeVolume" stroke="#2e74a8" fill="#4a90c4" fillOpacity={0.6} name="Cumulative Volume (AF)" />
                             </AreaChart>
                           )}
                         </ResponsiveContainer>

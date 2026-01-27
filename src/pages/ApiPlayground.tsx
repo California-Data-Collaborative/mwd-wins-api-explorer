@@ -185,9 +185,10 @@ print(data)`
                     onClick={() => setCodeLanguage(lang)}
                     className={`px-3 py-1 text-xs font-medium rounded ${
                       codeLanguage === lang
-                        ? 'bg-mwd-blue-800 text-white'
+                        ? 'text-white'
                         : 'bg-lavender-100 text-mwd-blue-700 hover:bg-lavender-200'
                     }`}
+                    style={codeLanguage === lang ? { backgroundColor: '#164876' } : undefined}
                   >
                     {lang === 'javascript' ? 'JS' : lang === 'python' ? 'Python' : 'cURL'}
                   </button>

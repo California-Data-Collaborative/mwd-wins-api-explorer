@@ -17,7 +17,7 @@ export function StatCard({ label, value, icon, subtext, trend }: StatCardProps) 
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-mwd-blue-600">{label}</p>
-          <p className="mt-1 text-2xl font-semibold text-mwd-blue-800">{value}</p>
+          <p className="mt-1 text-2xl font-semibold" style={{ color: '#2e74a8' }}>{value}</p>
           {subtext && <p className="mt-1 text-sm text-mwd-blue-500">{subtext}</p>}
           {trend && (
             <p
@@ -31,7 +31,7 @@ export function StatCard({ label, value, icon, subtext, trend }: StatCardProps) 
           )}
         </div>
         {icon && (
-          <div className="p-2 bg-lavender-100 rounded-lg text-mwd-blue-800">
+          <div className="p-2 rounded-lg" style={{ backgroundColor: '#c4ddf0', color: '#2e74a8' }}>
             {icon}
           </div>
         )}
