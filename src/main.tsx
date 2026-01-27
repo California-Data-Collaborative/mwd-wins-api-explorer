@@ -17,7 +17,7 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename="/MWD-API-Explorer">
+      <BrowserRouter basename="/mwd-wins-api-explorer">
         <App />
       </BrowserRouter>
     </QueryClientProvider>
