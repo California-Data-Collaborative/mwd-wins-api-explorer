@@ -71,6 +71,41 @@ npm run build
 npm run preview
 ```
 
+## Deploying to GitHub Pages
+
+This project is configured to deploy to GitHub Pages automatically.
+
+### Setup (one-time)
+
+1. Push your code to GitHub
+2. Go to your repository **Settings** → **Pages**
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**
+
+### Automatic Deployment
+
+Once configured, every push to `main` will automatically:
+1. Build the project
+2. Deploy to GitHub Pages
+
+Your site will be available at: `https://<username>.github.io/MWD-API-Explorer/`
+
+### Manual Deployment
+
+To deploy manually:
+
+```bash
+# Build the project
+npm run build
+
+# The dist/ folder contains the built site
+```
+
+Then push the `dist/` contents to a `gh-pages` branch, or use the GitHub Actions workflow included in `.github/workflows/deploy.yml`.
+
+### Important Note
+
+The `base` path in `vite.config.ts` is set to `/MWD-API-Explorer/`. If your repository has a different name, update this value to match.
+
 ## License
 
 This project is open source. The data displayed is public information provided by MWD.

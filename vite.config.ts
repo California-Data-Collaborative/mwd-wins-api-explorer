@@ -4,7 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/MWD-API-Explorer/',
+  base: '/mwd-wins-api-explorer/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
