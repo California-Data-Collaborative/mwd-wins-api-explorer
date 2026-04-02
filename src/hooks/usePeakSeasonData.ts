@@ -2,23 +2,10 @@ import { useMemo } from 'react'
 import { useQueries } from '@tanstack/react-query'
 import { fetchApi } from '../api/client'
 import { MeterInterval } from '../api/types'
+import { aggregateToYearSummary } from '../lib/peakDayCalculations'
+import type { YearPeakSummary } from '../lib/peakDayCalculations'
 
-export interface DailyAgencyFlow {
-  date: string
-  displayDate: string
-  totalCFS: number
-  totalVolumeAF: number
-  isPeakDay: boolean
-}
-
-export interface YearPeakSummary {
-  year: number
-  dailyFlows: DailyAgencyFlow[]
-  peakDay: DailyAgencyFlow | null
-  peakDayCFS: number
-  totalSeasonVolumeAF: number
-  daysWithData: number
-}
+export type { DailyAgencyFlow, YearPeakSummary } from '../lib/peakDayCalculations'
 
 export function usePeakSeasonData(
   connectionIds: string[],
@@ -87,68 +74,4 @@ export function usePeakSeasonData(
 
     return { yearData, isLoading, loadingProgress, hasErrors }
   }, [results, queries, years, connectionIds, shouldFetch])
-}
-
-function aggregateToYearSummary(
-  year: number,
-  intervals: MeterInterval[]
-): YearPeakSummary {
-  if (intervals.length === 0) {
-    return {
-      year,
-      dailyFlows: [],
-      peakDay: null,
-      peakDayCFS: 0,
-      totalSeasonVolumeAF: 0,
-      daysWithData: 0,
-    }
-  }
-
-  // Sum volume by date across all connections/intervals
-  const dailyVolumeMap = new Map<string, number>()
-  for (const interval of intervals) {
-    const date = interval.MeterDate.split('T')[0]
-    dailyVolumeMap.set(date, (dailyVolumeMap.get(date) || 0) + interval.Volume)
-  }
-
-  // Convert to daily average CFS
-  // Daily avg CFS = totalVolume(AF) * 43560(CF/AF) / 86400(s/day)
-  const dailyFlows: DailyAgencyFlow[] = Array.from(dailyVolumeMap.entries())
-    .map(([date, volumeAF]) => {
-      const [, m, d] = date.split('-')
-      return {
-        date,
-        displayDate: `${m}/${d}`,
-        totalCFS: Number(((volumeAF * 43560) / 86400).toFixed(2)),
-        totalVolumeAF: Number(volumeAF.toFixed(4)),
-        isPeakDay: false,
-      }
-    })
-    .sort((a, b) => a.date.localeCompare(b.date))
-
-  // Find and mark peak day
-  let peakDay: DailyAgencyFlow | null = null
-  if (dailyFlows.length > 0) {
-    const peakIdx = dailyFlows.reduce(
-      (maxIdx, flow, idx) =>
-        flow.totalCFS > dailyFlows[maxIdx].totalCFS ? idx : maxIdx,
-      0
-    )
-    dailyFlows[peakIdx].isPeakDay = true
-    peakDay = dailyFlows[peakIdx]
-  }
-
-  const totalSeasonVolumeAF = dailyFlows.reduce(
-    (sum, d) => sum + d.totalVolumeAF,
-    0
-  )
-
-  return {
-    year,
-    dailyFlows,
-    peakDay,
-    peakDayCFS: peakDay?.totalCFS ?? 0,
-    totalSeasonVolumeAF: Number(totalSeasonVolumeAF.toFixed(2)),
-    daysWithData: dailyFlows.length,
-  }
 }

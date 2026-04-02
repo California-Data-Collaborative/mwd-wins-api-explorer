@@ -13,11 +13,12 @@ import {
 } from 'recharts'
 import { useServiceConnectionsByAgency } from '../hooks/useServiceConnections'
 import { useAgencies } from '../hooks/useAgencies'
+import { usePeakSeasonData } from '../hooks/usePeakSeasonData'
+import type { DailyAgencyFlow } from '../lib/peakDayCalculations'
 import {
-  usePeakSeasonData,
-  type YearPeakSummary,
-  type DailyAgencyFlow,
-} from '../hooks/usePeakSeasonData'
+  getChargeYearConfig,
+  findTrailingMaxPeak,
+} from '../lib/peakDayCalculations'
 import { LoadingSpinner } from '../components/common/LoadingSpinner'
 import { ErrorMessage } from '../components/common/ErrorMessage'
 
@@ -60,16 +61,10 @@ export function CapacityCharge() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
 
   // Stable charge year configuration
-  const chargeConfig = useMemo(() => {
-    const cy = new Date().getFullYear()
-    return {
-      currentChargeYear: cy,
-      upcomingChargeYear: cy + 1,
-      currentChargeYears: [cy - 4, cy - 3, cy - 2],
-      upcomingChargeYears: [cy - 3, cy - 2, cy - 1],
-      allYears: [cy - 4, cy - 3, cy - 2, cy - 1],
-    }
-  }, [])
+  const chargeConfig = useMemo(
+    () => getChargeYearConfig(new Date().getFullYear()),
+    []
+  )
 
   const {
     currentChargeYear,
@@ -109,25 +104,15 @@ export function CapacityCharge() {
     )
 
   // Compute current and upcoming trailing max
-  const currentPeak = useMemo(() => {
-    const relevant = yearData.filter((y) =>
-      currentChargeYears.includes(y.year)
-    )
-    return relevant.reduce<YearPeakSummary | null>(
-      (max, y) => (!max || y.peakDayCFS > max.peakDayCFS ? y : max),
-      null
-    )
-  }, [yearData, currentChargeYears])
+  const currentPeak = useMemo(
+    () => findTrailingMaxPeak(yearData, currentChargeYears),
+    [yearData, currentChargeYears]
+  )
 
-  const upcomingPeak = useMemo(() => {
-    const relevant = yearData.filter((y) =>
-      upcomingChargeYears.includes(y.year)
-    )
-    return relevant.reduce<YearPeakSummary | null>(
-      (max, y) => (!max || y.peakDayCFS > max.peakDayCFS ? y : max),
-      null
-    )
-  }, [yearData, upcomingChargeYears])
+  const upcomingPeak = useMemo(
+    () => findTrailingMaxPeak(yearData, upcomingChargeYears),
+    [yearData, upcomingChargeYears]
+  )
 
   const selectedYearData = yearData.find((y) => y.year === effectiveSelectedYear)
 
