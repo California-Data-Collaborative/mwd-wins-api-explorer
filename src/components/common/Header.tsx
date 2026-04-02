@@ -4,6 +4,7 @@ const navigation = [
   { name: 'Dashboard', path: '/' },
   { name: 'Agencies', path: '/agencies' },
   { name: 'Meters', path: '/meters' },
+  { name: 'Capacity Charge', path: '/capacity-charge' },
   { name: 'API Playground', path: '/playground' },
 ]
 
