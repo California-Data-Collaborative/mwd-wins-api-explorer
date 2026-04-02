@@ -3,6 +3,7 @@ import { Layout } from './components/common/Layout'
 import { Dashboard } from './pages/Dashboard'
 import { AgencyExplorer } from './pages/AgencyExplorer'
 import { MeterExplorer } from './pages/MeterExplorer'
+import { CapacityCharge } from './pages/CapacityCharge'
 import { ApiPlayground } from './pages/ApiPlayground'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/agencies" element={<AgencyExplorer />} />
         <Route path="/meters" element={<MeterExplorer />} />
+        <Route path="/capacity-charge" element={<CapacityCharge />} />
         <Route path="/playground" element={<ApiPlayground />} />
         {/* Redirect old interval route to meters */}
         <Route path="/interval" element={<Navigate to="/meters" replace />} />

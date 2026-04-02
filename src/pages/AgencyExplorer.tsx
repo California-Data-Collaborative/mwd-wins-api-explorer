@@ -236,7 +236,13 @@ export function AgencyExplorer() {
                         </p>
                       )}
                     </div>
-                    <div className="flex gap-2 flex-wrap">
+                    <div className="flex gap-2 flex-wrap items-center">
+                      <Link
+                        to={`/capacity-charge?agency=${encodeURIComponent(selectedAgency)}`}
+                        className="btn-primary text-sm"
+                      >
+                        View Peak Day
+                      </Link>
                       <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
